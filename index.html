@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Numerology Calculator | Mukund Vyas</title>
+    <style>
+        :root {
+            --bg-color: #f4e7d3;
+            --container-bg: #ffffff;
+            --primary-brown: #5d4037;
+            --accent-brown: #8d6e63;
+            --border-color: #d7ccc8;
+            
+            /* Planet Colors */
+            --color-1: #FF8C00; /* Sun */
+            --color-2: #E0E0E0; /* Moon */
+            --color-3: #FFD700; /* Jupiter */
+            --color-4: #4B4B4B; /* Rahu */
+            --color-5: #4CAF50; /* Mercury */
+            --color-6: #F06292; /* Venus */
+            --color-7: #BDBDBD; /* Ketu */
+            --color-8: #212121; /* Saturn */
+            --color-9: #D32F2F; /* Mars */
+            --color-0: #4a4a4a;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        .container {
+            background-color: var(--container-bg);
+            padding: 1.2rem;
+            border-radius: 16px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+            width: 100%;
+            max-width: 650px;
+            border: 1px solid var(--accent-brown);
+        }
+
+        .header-section {
+            text-align: center;
+            margin-bottom: 1.2rem;
+        }
+
+        h2 {
+            color: var(--primary-brown);
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-size: 1.3rem;
+        }
+
+        .by-line {
+            font-size: 0.8rem;
+            color: var(--accent-brown);
+            font-style: italic;
+            margin-top: 4px;
+            display: block;
+            text-align: right;
+        }
+
+        .input-group {
+            margin-bottom: 0.8rem;
+        }
+
+        .label {
+            font-size: 0.65rem;
+            color: var(--primary-brown);
+            text-transform: uppercase;
+            margin-bottom: 4px;
+            display: block;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+        }
+
+        .flex-row {
+            display: flex;
+            align-items: stretch;
+            gap: 6px;
+        }
+
+        .input-wrapper {
+            flex: 1;
+            min-width: 0;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px 10px;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 0.95rem;
+            box-sizing: border-box;
+            background: #fff;
+            font-weight: bold;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--accent-brown);
+        }
+
+        .result-box {
+            border-radius: 8px;
+            width: 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            flex-shrink: 0;
+            transition: background-color 0.3s ease;
+            background-color: var(--color-0);
+        }
+
+        #box-ln {
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            margin-left: -4px;
+        }
+
+        .res-label {
+            font-size: 0.55rem;
+            color: #fff;
+            text-shadow: 1px 1px 1px rgba(0,0,0,0.5);
+            font-weight: bold;
+            margin-bottom: 2px;
+        }
+
+        .light-bg-text .res-label, 
+        .light-bg-text .single-val {
+            color: #333 !important;
+            text-shadow: none !important;
+        }
+
+        .single-val { 
+            font-size: 1.5rem;
+            color: #fff; 
+            font-weight: 900; 
+            line-height: 1;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+
+        hr { border: 0; border-top: 1px solid var(--border-color); margin: 1rem 0; }
+
+        #tableArea { margin-top: 1.2rem; overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; font-size: 0.75rem; background: #fff; }
+        th, td { border: 1px solid #000; padding: 6px; text-align: left; }
+        th { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header-section">
+        <h2>Chaldean Numerology</h2>
+        <span class="by-line">by Mukund Vyas</span>
+    </div>
+    
+    <div class="input-group">
+        <span class="label">First Name:</span>
+        <div class="flex-row">
+            <div class="input-wrapper">
+                <input type="text" id="firstName" placeholder="First Name" oninput="calculateAll()">
+            </div>
+            <div class="result-box" id="box-fn">
+                <span class="res-label">FN</span>
+                <span id="fnDigit" class="single-val result-num">0</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="input-group">
+        <span class="label">Last Name:</span>
+        <div class="flex-row">
+            <div class="input-wrapper">
+                <input type="text" id="lastName" placeholder="Last Name" oninput="calculateAll()">
+            </div>
+            <div class="result-box" id="box-ln">
+                <span class="res-label">LN</span>
+                <span id="lnDigit" class="single-val result-num">0</span>
+            </div>
+            <div class="result-box" id="box-nn">
+                <span class="res-label">NN</span>
+                <span id="nnDigit" class="single-val result-num">0</span>
+            </div>
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="input-group">
+        <span class="label">Mulank (Date DD):</span>
+        <div class="flex-row">
+            <div class="input-wrapper">
+                <input type="tel" id="mulankInput" placeholder="DD" maxlength="2" oninput="validateDate(this); calculateAll();">
+            </div>
+            <div class="result-box" id="box-driver">
+                <span class="res-label">DRIVER</span>
+                <span id="mulankDigit" class="single-val result-num">0</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="input-group">
+        <span class="label">Bhagyank (DD MM YYYY):</span>
+        <div class="flex-row">
+            <div class="input-wrapper">
+                <input type="tel" id="bhagyankInput" placeholder="DD MM YYYY" maxlength="10" oninput="formatDate(this); calculateAll();">
+            </div>
+            <div class="result-box" id="box-conductor">
+                <span class="res-label">CONDUCTOR</span>
+                <span id="bhagyankDigit" class="single-val result-num">0</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="input-group">
+        <span class="label">Mobile Number:</span>
+        <div class="flex-row">
+            <div class="input-wrapper">
+                <input type="tel" id="mobileInput" placeholder="10 Digits" maxlength="10" oninput="calculateAll()">
+            </div>
+            <div class="result-box" id="box-mobile">
+                <span class="res-label">MOBILE</span>
+                <span id="mobileDigit" class="single-val result-num">0</span>
+            </div>
+        </div>
+    </div>
+
+    <div id="tableArea" style="display: none;"></div>
+</div>
+
+<script>
+    const chaldeanChart = {'A':1,'I':1,'J':1,'Q':1,'Y':1,'B':2,'K':2,'R':2,'C':3,'G':3,'L':3,'S':3,'D':4,'M':4,'T':4,'E':5,'H':5,'N':5,'X':5,'U':6,'V':6,'W':6,'O':7,'Z':7,'F':8,'P':8};
+
+    const planetStyles = {
+        0: { color: "#4a4a4a", light: false },
+        1: { color: "#FF8C00", light: false },
+        2: { color: "#E0E0E0", light: true },
+        3: { color: "#FFD700", light: true },
+        4: { color: "#4B4B4B", light: false },
+        5: { color: "#4CAF50", light: false },
+        6: { color: "#F06292", light: false },
+        7: { color: "#BDBDBD", light: true },
+        8: { color: "#212121", light: false },
+        9: { color: "#D32F2F", light: false }
+    };
+
+    const planetTableData = {
+        1: { planet: "सूर्य (Sun)", role: "राजा", features: "नेतृत्व, आत्मविश्वास, महत्त्वाकांक्षा, स्वाभिमान." },
+        2: { planet: "चंद्र (Moon)", role: "राणी", features: "कल्पकता, भावनाप्रधानता, शांतता, सहकार्य." },
+        3: { planet: "गुरु (Jupiter)", role: "गुरु/सल्लागार", features: "ज्ञान, शिस्त, आध्यात्मिक प्रगती, बुद्धिमत्ता." },
+        4: { planet: "राहू (Rahu)", role: "बंडखोर", features: "अचानक बदल, कष्ट, नवीन विचार, व्यवहारज्ञान." },
+        5: { planet: "बुध (Mercury)", role: "राजकुमार", features: "चपळता, संवाद कौशल्य, व्यापार, बुद्धी." },
+        6: { planet: "शुक्र (Venus)", role: "कलाकार", features: "सौंदर्य, प्रेम, चैनीचे जीवन, कला, कौटुंबिक सुख." },
+        7: { planet: "केतू (Ketu)", role: "साधू/योगी", features: "अध्यात्म, संशोधन, एकांतप्रियता, गूढ ज्ञान." },
+        8: { planet: "शनी (Saturn)", role: "न्यायाधीश", features: "न्याय, कष्ट, संयम, विलंब, यश (कष्टाने मिळणारे)." },
+        9: { planet: "मंगळ (Mars)", role: "सेनापती", features: "ऊर्जा, साहस, राग, धाडस, मानवतावाद." }
+    };
+
+    function validateDate(input) {
+        let val = input.value.replace(/\D/g, '');
+        if (parseInt(val) > 31) {
+            input.value = "31";
+        } else {
+            input.value = val;
+        }
+    }
+
+    function formatDate(input) {
+        let val = input.value.replace(/\D/g, '');
+        let formatted = "";
+        if (val.length > 0) {
+            formatted += val.substring(0, 2);
+            if (val.length > 2) {
+                formatted += " " + val.substring(2, 4);
+                if (val.length > 4) {
+                    formatted += " " + val.substring(4, 8);
+                }
+            }
+        }
+        input.value = formatted;
+    }
+
+    function getSingleDigit(n) {
+        if (!n || n === 0) return 0;
+        let d = n;
+        while (d > 9) d = String(d).split('').reduce((acc, digit) => acc + parseInt(digit), 0);
+        return d;
+    }
+
+    function getNameValue(name) {
+        let sum = 0;
+        for (let char of name.toUpperCase()) if (chaldeanChart[char]) sum += chaldeanChart[char];
+        return sum;
+    }
+
+    function updateBoxStyle(boxId, value) {
+        const box = document.getElementById(boxId);
+        const style = planetStyles[value] || planetStyles[0];
+        box.style.backgroundColor = style.color;
+        if (style.light) box.classList.add('light-bg-text');
+        else box.classList.remove('light-bg-text');
+    }
+
+    function calculateAll() {
+        const first = document.getElementById('firstName').value;
+        const last = document.getElementById('lastName').value;
+        const fSum = getNameValue(first);
+        const lSum = getNameValue(last);
+        
+        const fn = first.trim() === "" ? 0 : getSingleDigit(fSum);
+        const ln = last.trim() === "" ? 0 : getSingleDigit(lSum);
+        const nn = (first.trim() === "" && last.trim() === "") ? 0 : getSingleDigit(fSum + lSum);
+
+        document.getElementById('fnDigit').innerText = fn;
+        document.getElementById('lnDigit').innerText = ln;
+        document.getElementById('nnDigit').innerText = nn;
+
+        updateBoxStyle('box-fn', fn);
+        updateBoxStyle('box-ln', ln);
+        updateBoxStyle('box-nn', nn);
+
+        const mInput = document.getElementById('mulankInput').value;
+        const bInput = document.getElementById('bhagyankInput').value.replace(/\D/g, '');
+        const mobInput = document.getElementById('mobileInput').value.replace(/\D/g, '');
+
+        const driver = mInput === "" ? 0 : getSingleDigit(mInput.split('').reduce((a,b)=>a+parseInt(b),0));
+        const cond = bInput === "" ? 0 : getSingleDigit(bInput.split('').reduce((a,b)=>a+parseInt(b),0));
+        const mob = mobInput === "" ? 0 : getSingleDigit(mobInput.split('').reduce((a,b)=>a+parseInt(b),0));
+
+        document.getElementById('mulankDigit').innerText = driver;
+        document.getElementById('bhagyankDigit').innerText = cond;
+        document.getElementById('mobileDigit').innerText = mob;
+
+        updateBoxStyle('box-driver', driver);
+        updateBoxStyle('box-conductor', cond);
+        updateBoxStyle('box-mobile', mob);
+
+        updateTable();
+    }
+
+    function updateTable() {
+        const activeNums = new Set();
+        document.querySelectorAll('.result-num').forEach(el => {
+            const val = parseInt(el.innerText);
+            if (val > 0 && val <= 9) activeNums.add(val);
+        });
+
+        const area = document.getElementById('tableArea');
+        if (activeNums.size > 0) {
+            let html = `<table><thead><tr><th>अंक</th><th>सत्ताधारी ग्रह</th><th>भूमिका</th><th>वैशिष्ट्ये</th></tr></thead><tbody>`;
+            Array.from(activeNums).sort().forEach(num => {
+                const data = planetTableData[num];
+                html += `<tr><td style="text-align:center;font-weight:bold;">${num}</td><td>${data.planet}</td><td>${data.role}</td><td>${data.features}</td></tr>`;
+            });
+            html += `</tbody></table>`;
+            area.innerHTML = html;
+            area.style.display = 'block';
+        } else {
+            area.style.display = 'none';
+        }
+    }
+</script>
+
+</body>
+</html>
