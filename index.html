@@ -1,160 +1,66 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="mr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Numerology Calculator | Mukund Vyas</title>
+    <title>Numerology Master | Mukund Vyas</title>
     <style>
         :root {
-            --bg-color: #f4e7d3;
-            --container-bg: #ffffff;
+            --bg-gradient: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            --container-bg: rgba(255, 255, 255, 0.98);
+            --primary-gold: #b8860b;
             --primary-brown: #5d4037;
-            --accent-brown: #8d6e63;
-            --border-color: #d7ccc8;
-            
-            /* Planet Colors */
-            --color-1: #FF8C00; /* Sun */
-            --color-2: #E0E0E0; /* Moon */
-            --color-3: #FFD700; /* Jupiter */
-            --color-4: #4B4B4B; /* Rahu */
-            --color-5: #4CAF50; /* Mercury */
-            --color-6: #F06292; /* Venus */
-            --color-7: #BDBDBD; /* Ketu */
-            --color-8: #212121; /* Saturn */
-            --color-9: #D32F2F; /* Mars */
-            --color-0: #4a4a4a;
+            --wa-green: #25D366;
         }
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg-color);
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 10px;
-            box-sizing: border-box;
+        @keyframes slideUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+        @keyframes bulbGlow {
+            0% { box-shadow: 0 0 5px #fff; filter: brightness(100%); }
+            50% { box-shadow: 0 0 20px #ffeb3b, 0 0 35px #fff176; filter: brightness(130%); }
+            100% { box-shadow: 0 0 5px #fff; filter: brightness(100%); }
         }
 
-        .container {
-            background-color: var(--container-bg);
-            padding: 1.2rem;
-            border-radius: 16px;
-            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
-            width: 100%;
-            max-width: 650px;
-            border: 1px solid var(--accent-brown);
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg-gradient); margin: 0; padding: 10px; display: flex; justify-content: center; min-height: 100vh; }
+        .container { background: var(--container-bg); padding: 1.2rem; border-radius: 25px; box-shadow: 0 15px 35px rgba(0,0,0,0.15); width: 100%; max-width: 750px; animation: slideUp 0.7s ease-out; box-sizing: border-box; }
+
+        .header-section { text-align: center; border-bottom: 3px solid var(--primary-gold); padding-bottom: 10px; margin-bottom: 20px; }
+        h2 { color: var(--primary-brown); margin: 0; text-transform: uppercase; letter-spacing: 2px; font-size: 1.4rem; }
+        .by-line { font-size: 1rem; color: var(--primary-brown); font-weight: bold; font-style: italic; text-align: right; display: block; margin-top: 5px; }
+
+        .planet-selector { display: flex; justify-content: center; gap: 6px; margin-bottom: 15px; flex-wrap: wrap; }
+        .circle { 
+            width: 38px; height: 38px; border-radius: 50%; cursor: pointer; border: 2px solid white; 
+            display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; 
+            transition: transform 0.2s ease; font-size: 0.9rem; 
         }
+        .circle:hover { transform: scale(1.2); }
+        
+        #planetInfoBox { display: none; background: #fffbe6; border: 2px solid var(--primary-gold); border-radius: 15px; padding: 12px; margin-bottom: 20px; }
 
-        .header-section {
-            text-align: center;
-            margin-bottom: 1.2rem;
-        }
+        .input-group { margin-bottom: 1rem; }
+        .label { font-size: 0.8rem; color: var(--primary-brown); text-transform: uppercase; margin-bottom: 5px; display: block; font-weight: 900; }
+        .flex-row { display: flex; align-items: center; gap: 6px; width: 100%; }
+        input, select { width: 100%; padding: 10px; border: 2px solid #d7ccc8; border-radius: 12px; font-size: 0.95rem; box-sizing: border-box; font-weight: bold; text-transform: uppercase; height: 48px; }
+        
+        .result-box { border-radius: 10px; width: 65px; height: 58px; display: flex; flex-direction: column; justify-content: center; align-items: center; background-color: #4a4a4a; color: white; flex-shrink: 0; }
+        .res-label { font-size: 0.55rem; text-transform: uppercase; font-weight: 950 !important; text-align: center; }
+        .res-digit { font-size: 1.3rem; font-weight: 600; line-height: 1; }
 
-        h2 {
-            color: var(--primary-brown);
-            margin: 0;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            font-size: 1.3rem;
-        }
+        .rel-banner { font-size: 0.75rem; font-weight: 700; background: rgba(0,0,0,0.03); padding: 8px; border-radius: 10px; border-left: 5px solid var(--primary-gold); display: none; margin-top: 5px; line-height: 1.4; }
 
-        .by-line {
-            font-size: 0.8rem;
-            color: var(--accent-brown);
-            font-style: italic;
-            margin-top: 4px;
-            display: block;
-            text-align: right;
-        }
+        .bulb-container { text-align: center; margin: 15px 0; display: none; }
+        .bulb-btn { background: #fff176; border: 2px solid #fbc02d; border-radius: 50%; width: 50px; height: 50px; cursor: pointer; font-size: 24px; display: inline-flex; align-items: center; justify-content: center; }
+        .bulb-glow-on { animation: bulbGlow 2s infinite ease-in-out; }
+        .career-card { margin-top: 10px; padding: 15px; background: #f0f4f8; border-radius: 18px; border: 2px solid #2980b9; display: none; }
 
-        .input-group {
-            margin-bottom: 0.8rem;
-        }
-
-        .label {
-            font-size: 0.65rem;
-            color: var(--primary-brown);
-            text-transform: uppercase;
-            margin-bottom: 4px;
-            display: block;
-            font-weight: 800;
-            letter-spacing: 0.5px;
-        }
-
-        .flex-row {
-            display: flex;
-            align-items: stretch;
-            gap: 6px;
-        }
-
-        .input-wrapper {
-            flex: 1;
-            min-width: 0;
-        }
-
-        input {
-            width: 100%;
-            padding: 8px 10px;
-            border: 2px solid var(--border-color);
-            border-radius: 8px;
-            font-size: 0.95rem;
-            box-sizing: border-box;
-            background: #fff;
-            font-weight: bold;
-        }
-
-        input:focus {
-            outline: none;
-            border-color: var(--accent-brown);
-        }
-
-        .result-box {
-            border-radius: 8px;
-            width: 60px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            flex-shrink: 0;
-            transition: background-color 0.3s ease;
-            background-color: var(--color-0);
-        }
-
-        #box-ln {
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            margin-left: -4px;
-        }
-
-        .res-label {
-            font-size: 0.55rem;
-            color: #fff;
-            text-shadow: 1px 1px 1px rgba(0,0,0,0.5);
-            font-weight: bold;
-            margin-bottom: 2px;
-        }
-
-        .light-bg-text .res-label, 
-        .light-bg-text .single-val {
-            color: #333 !important;
-            text-shadow: none !important;
-        }
-
-        .single-val { 
-            font-size: 1.5rem;
-            color: #fff; 
-            font-weight: 900; 
-            line-height: 1;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
-        }
-
-        hr { border: 0; border-top: 1px solid var(--border-color); margin: 1rem 0; }
-
-        #tableArea { margin-top: 1.2rem; overflow-x: auto; }
-        table { width: 100%; border-collapse: collapse; font-size: 0.75rem; background: #fff; }
-        th, td { border: 1px solid #000; padding: 6px; text-align: left; }
-        th { background-color: #f2f2f2; }
+        .branding-section { text-align: center; margin-top: 25px; padding: 15px; background: rgba(184, 134, 11, 0.08); border-radius: 20px; border: 2px solid var(--primary-gold); display: none; }
+        .whatsapp-btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; background: var(--wa-green); color: white; padding: 12px 25px; border-radius: 50px; text-decoration: none; font-weight: bold; animation: pulse 2s infinite; }
+        .whatsapp-btn svg { width: 22px; height: 22px; fill: white; }
+        .expertise-list { font-size: 0.82rem; color: var(--primary-brown); font-weight: 800; margin-top: 12px; border-top: 1px solid #ccc; padding-top: 12px; line-height: 1.6; }
+        hr { border: 0; border-top: 2px solid #ddd; margin: 1.2rem 0; }
+        .full-age-text { font-size: 0.85rem; font-weight: 800; color: #4a4a4a; margin-top: 5px; display: none; }
+        .char-breakdown { font-size: 0.85rem; color: var(--primary-gold); font-weight: 900; letter-spacing: 4px; height: 1.2rem; }
     </style>
 </head>
 <body>
@@ -164,213 +70,231 @@
         <h2>Chaldean Numerology</h2>
         <span class="by-line">by Mukund Vyas</span>
     </div>
-    
+
     <div class="input-group">
-        <span class="label">First Name:</span>
-        <div class="flex-row">
-            <div class="input-wrapper">
-                <input type="text" id="firstName" placeholder="First Name" oninput="calculateAll()">
-            </div>
-            <div class="result-box" id="box-fn">
-                <span class="res-label">FN</span>
-                <span id="fnDigit" class="single-val result-num">0</span>
-            </div>
-        </div>
+        <span class="label">⭐ सेलिब्रिटी केस स्टडी निवड:</span>
+        <select id="celebritySelect" onchange="loadCelebrity()">
+            <option value="">-- केस स्टडी निवडा --</option>
+            <option value="aamir">AAMIR KHAN</option>
+            <option value="ajay">AJAY DEVGN</option>
+            <option value="akshay">AKSHAY KUMAR</option>
+            <option value="allu">ALLU ARJUN</option>
+            <option value="amitabh">AMITABH BACHCHAN</option>
+            <option value="ambani">MUKESH AMBANI</option>
+            <option value="bill">BILL GATES</option>
+            <option value="deepika">DEEPIKA PADUKONE</option>
+            <option value="elon">ELON MUSK</option>
+            <option value="hardik">HARDIK PANDYA</option>
+            <option value="hrithik">HRITHIK ROSHAN</option>
+            <option value="bumrah">JASPRIT BUMRAH</option>
+            <option value="klrahul">K L RAHUL</option>
+            <option value="dhoni">MAHENDRA DHONI</option>
+            <option value="modi">NARENDRA MODI</option>
+            <option value="mukund">MUKUND VYAS</option>
+            <option value="rajnikant">RAJNIKANTH</option>
+            <option value="ranbir">RANBIR KAPOOR</option>
+            <option value="ratan">RATAN TATA</option>
+            <option value="rohit">ROHIT SHARMA</option>
+            <option value="sachin">SACHIN TENDULKAR</option>
+            <option value="salman">SALMAN KHAN</option>
+            <option value="srk">SHAH RUKH KHAN</option>
+            <option value="dhawan">SHIKHAR DHAWAN</option>
+            <option value="sundar">SUNDAR PICHAI</option>
+            <option value="surya">SURYAKUMAR YADAV</option>
+            <option value="virat">VIRAT KOHLI</option>
+            <option value="yash">YASH (KGF)</option>
+        </select>
+    </div>
+
+    <div class="planet-selector">
+        <div class="circle" style="background:#FF8C00" onclick="togglePlanet(1)">1</div>
+        <div class="circle" style="background:#BDBDBD" onclick="togglePlanet(2)">2</div>
+        <div class="circle" style="background:#FFD700" onclick="togglePlanet(3)">3</div>
+        <div class="circle" style="background:#4B4B4B" onclick="togglePlanet(4)">4</div>
+        <div class="circle" style="background:#4CAF50" onclick="togglePlanet(5)">5</div>
+        <div class="circle" style="background:#F06292" onclick="togglePlanet(6)">6</div>
+        <div class="circle" style="background:#795548" onclick="togglePlanet(7)">7</div>
+        <div class="circle" style="background:#212121" onclick="togglePlanet(8)">8</div>
+        <div class="circle" style="background:#D32F2F" onclick="togglePlanet(9)">9</div>
+    </div>
+
+    <div id="planetInfoBox">
+        <span id="pTitle" style="font-weight: 900; color: var(--primary-brown); display: block; border-bottom: 1px solid #ddd; margin-bottom: 5px;"></span>
+        <p id="pDesc" style="margin:5px 0; font-size:0.95rem;"></p>
+        <div id="pColor" style="font-weight:bold; color:var(--danger-red); font-size:0.85rem;"></div>
+        <div id="pLetters" style="font-weight:bold; color:var(--primary-gold); font-size:0.85rem;"></div>
     </div>
 
     <div class="input-group">
-        <span class="label">Last Name:</span>
+        <span class="label">पहिले नाव (FN):</span>
         <div class="flex-row">
-            <div class="input-wrapper">
-                <input type="text" id="lastName" placeholder="Last Name" oninput="calculateAll()">
-            </div>
-            <div class="result-box" id="box-ln">
-                <span class="res-label">LN</span>
-                <span id="lnDigit" class="single-val result-num">0</span>
-            </div>
-            <div class="result-box" id="box-nn">
-                <span class="res-label">NN</span>
-                <span id="nnDigit" class="single-val result-num">0</span>
-            </div>
+            <div style="flex:1"><input type="text" id="firstName" placeholder="नाव टाका" oninput="calculateAll()"></div>
+            <div class="result-box" id="box-fn"><span class="res-label">FN</span><span id="fnDigit" class="res-digit">0</span></div>
         </div>
-    </div>
-
-    <hr>
-
-    <div class="input-group">
-        <span class="label">Mulank (Date DD):</span>
-        <div class="flex-row">
-            <div class="input-wrapper">
-                <input type="tel" id="mulankInput" placeholder="DD" maxlength="2" oninput="validateDate(this); calculateAll();">
-            </div>
-            <div class="result-box" id="box-driver">
-                <span class="res-label">DRIVER</span>
-                <span id="mulankDigit" class="single-val result-num">0</span>
-            </div>
-        </div>
+        <div id="fnChars" class="char-breakdown"></div>
+        <div id="rel-fn" class="rel-banner"></div>
     </div>
 
     <div class="input-group">
-        <span class="label">Bhagyank (DD MM YYYY):</span>
+        <span class="label">आडनाव (LN):</span>
         <div class="flex-row">
-            <div class="input-wrapper">
-                <input type="tel" id="bhagyankInput" placeholder="DD MM YYYY" maxlength="10" oninput="formatDate(this); calculateAll();">
-            </div>
-            <div class="result-box" id="box-conductor">
-                <span class="res-label">CONDUCTOR</span>
-                <span id="bhagyankDigit" class="single-val result-num">0</span>
-            </div>
+            <div style="flex:1"><input type="text" id="lastName" placeholder="आडनाव टाका" oninput="calculateAll()"></div>
+            <div class="result-box" id="box-ln"><span class="res-label">LN</span><span id="lnDigit" class="res-digit">0</span></div>
+            <div class="result-box" id="box-nn" style="margin-left:2px;"><span class="res-label">NN</span><span id="nnDigit" class="res-digit">0</span></div>
         </div>
+        <div id="rel-nn" class="rel-banner"></div>
     </div>
 
     <div class="input-group">
-        <span class="label">Mobile Number:</span>
+        <span class="label">जन्म तारीख:</span>
+        <div class="flex-row" style="gap: 5px; flex-wrap: nowrap;">
+            <div style="flex: 2;"><input type="tel" id="bhagyankInput" placeholder="DD MM YYYY" maxlength="10" oninput="formatDate(this); calculateAll();" style="text-align: left; padding-left: 15px;"></div>
+            <div class="result-box" id="box-bn" style="margin-left:5px;"><span class="res-label">BN</span><span id="bnDigit" class="res-digit">0</span></div>
+            <div class="result-box" id="box-dn" style="margin-left:2px;"><span class="res-label">DN</span><span id="dnDigit" class="res-digit">0</span></div>
+        </div>
+        <div id="fullAgeLine" class="full-age-text">वय: <span id="ageVal">0</span> वर्षे</div>
+    </div>
+
+    <div id="bulbArea" class="bulb-container">
+        <div class="bulb-btn bulb-glow-on" id="mainBulb" onclick="toggleCareer()">💡</div>
+        <span style="display:block; font-size:0.7rem; font-weight:900; color:#2980b9; margin-top:5px;">व्यवसाय मार्गदर्शन पहा</span>
+    </div>
+
+    <div id="careerSection" class="career-card">
+        <span style="font-size:0.85rem; font-weight:900; color:#2980b9; text-transform:uppercase;">🚀 शिफारस केलेले व्यवसाय:</span>
+        <div id="careerList" style="font-weight:700; margin-top:5px; font-size:0.9rem;"></div>
+    </div>
+
+    <div class="input-group">
+        <span class="label">मोबाईल नंबर:</span>
         <div class="flex-row">
-            <div class="input-wrapper">
-                <input type="tel" id="mobileInput" placeholder="10 Digits" maxlength="10" oninput="calculateAll()">
-            </div>
-            <div class="result-box" id="box-mobile">
-                <span class="res-label">MOBILE</span>
-                <span id="mobileDigit" class="single-val result-num">0</span>
-            </div>
+            <div style="flex:1"><input type="tel" id="mobileInput" placeholder="१० अंक" maxlength="10" oninput="calculateAll()"></div>
+            <div class="result-box" id="box-mob"><span class="res-label">MOB</span><span id="mobDigit" class="res-digit">0</span></div>
         </div>
     </div>
 
-    <div id="tableArea" style="display: none;"></div>
+    <div class="input-group" style="border-top: 1px dashed #ccc; padding-top: 15px;">
+        <span class="label">🏠 ॲसेट चेक (घर/दुकान) 🚗</span>
+        <div class="flex-row">
+            <div style="flex:1"><input type="text" id="assetInput" placeholder="नाव टाका" oninput="calculateAll()"></div>
+            <div class="result-box" id="box-asset" style="background-color:#2980b9;"><span class="res-label">TOTAL</span><span id="assetDigit" class="res-digit">0</span></div>
+        </div>
+    </div>
+
+    <div id="brandSection" class="branding-section">
+        <span style="font-size:1.2rem; font-weight:900; color:var(--primary-brown); display:block; text-transform:uppercase;">Mukund Vyas</span>
+        <a id="waLink" href="#" class="whatsapp-btn" target="_blank">
+            <svg viewBox="0 0 448 512"><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.7 17.8 69.7 27.2 106.2 27.2 122.4 0 222-99.6 222-222 0-59.3-23-115.1-65-157.1zM223.9 446.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3 18.7-68.1-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-5.6-2.8-23.5-8.6-44.8-27.6-16.6-14.8-27.8-33.1-31.1-38.6-3.2-5.6-.3-8.6 2.5-11.4 2.5-2.5 5.5-6.5 8.3-9.8 2.8-3.3 3.7-5.6 5.5-9.3 1.8-3.7.9-6.9-.5-9.8-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 13.2 5.8 23.5 9.2 31.5 11.8 13.3 4.2 25.4 3.6 35 2.2 10.7-1.5 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/></svg>
+            Whatsapp Me
+        </a>
+        <div class="expertise-list">
+            Past Life Regression (PLR) | Numerologist | Vastu Consultant<br>
+            Spiritual Healing | Aura Scanning Analyst
+        </div>
+    </div>
 </div>
 
 <script>
     const chaldeanChart = {'A':1,'I':1,'J':1,'Q':1,'Y':1,'B':2,'K':2,'R':2,'C':3,'G':3,'L':3,'S':3,'D':4,'M':4,'T':4,'E':5,'H':5,'N':5,'X':5,'U':6,'V':6,'W':6,'O':7,'Z':7,'F':8,'P':8};
+    const relationshipChart = { 1:{f:[1,2,3,5,6,9],e:[8],n:[4,7]}, 2:{f:[1,2,3,5],e:[8,4,9],n:[7,6]}, 3:{f:[1,2,3,5,7],e:[6],n:[4,8,9]}, 4:{f:[1,5,7,6,4,8],e:[2,9],n:[3]}, 5:{f:[1,2,3,5,6],e:[],n:[4,7,8,9]}, 6:{f:[1,4,5,6,7],e:[3],n:[2,8,9]}, 7:{f:[1,3,5,4,6],e:[],n:[8,2,7,9]}, 8:{f:[5,3,6,7,4,8],e:[1,2],n:[9]}, 9:{f:[1,3,5],e:[4,2],n:[9,7,6,8]} };
+    const planetMap = { 1:{p:"सूर्य (Sun)",r:"नारंगी",a:"A,I,J,Q,Y",c:"नेतृत्व, आत्मविश्वास आणि राजसत्ता."}, 2:{p:"चंद्र (Moon)",r:"पांढरा",a:"B,K,R",c:"कल्पकता, शांती आणि मनाची चंचलता."}, 3:{p:"गुरु (Jupiter)",r:"पिवळा",a:"C,G,L,S",c:"ज्ञान, शिस्त आणि आध्यात्मिक प्रगती."}, 4:{p:"राहू (Rahu)",r:"राखी",a:"D,M,T",c:"अचानक बदल आणि कष्टाने यश."}, 5:{p:"बुध (Mercury)",r:"हिरवा",a:"E,H,N,X",c:"व्यापार बुद्धी आणि संवाद कौशल्य."}, 6:{p:"शुक्र (Venus)",r:"गुलाबी",a:"U,V,W",c:"विलासी जीवन, सौंदर्य आणि कला."}, 7:{p:"केतू (Ketu)",r:"तपकरी",a:"O,Z",c:"संशोधन आणि गूढ अध्यात्म."}, 8:{p:"शनी (Saturn)",r:"काळा",a:"F,P",c:"न्याय, संयम आणि शिस्त."}, 9:{p:"मंगळ (Mars)",r:"लाल",a:"None",c:"ऊर्जा आणि धाडसी स्वभाव."} };
+    const professionMap = { 1:"सरकारी नोकरी, सोने व्यापार, औषधी.", 2:"डेअरी, संगीत, आयात-निर्यात.", 3:"शिक्षण, बँकिंग, सल्लागार.", 4:"IT क्षेत्र, शेअर मार्केट, ज्योतिष.", 5:"मार्केटिंग, व्यापार, ई-कॉमर्स.", 6:"फॅशन, हॉटेलिंग, हिरे व्यापार.", 7:"संशोधन, लेखक, तांत्रिक शिक्षण.", 8:"लोखंड, खाणकाम, मशिनरी.", 9:"लष्कर, क्रीडा, शस्त्रक्रिया." };
 
-    const planetStyles = {
-        0: { color: "#4a4a4a", light: false },
-        1: { color: "#FF8C00", light: false },
-        2: { color: "#E0E0E0", light: true },
-        3: { color: "#FFD700", light: true },
-        4: { color: "#4B4B4B", light: false },
-        5: { color: "#4CAF50", light: false },
-        6: { color: "#F06292", light: false },
-        7: { color: "#BDBDBD", light: true },
-        8: { color: "#212121", light: false },
-        9: { color: "#D32F2F", light: false }
+    const celebrityData = { 
+        "aamir": { f: "AAMIR", l: "KHAN", d: "14 03 1965" },
+        "ajay": { f: "AJAY", l: "DEVGN", d: "02 04 1969" },
+        "akshay": { f: "AKSHAY", l: "KUMAR", d: "09 09 1967" },
+        "allu": { f: "ALLU", l: "ARJUN", d: "08 04 1982" },
+        "amitabh": { f: "AMITABH", l: "BACHCHAN", d: "11 10 1942" },
+        "ambani": { f: "MUKESH", l: "AMBANI", d: "19 04 1957" },
+        "bill": { f: "BILL", l: "GATES", d: "28 10 1955" },
+        "deepika": { f: "DEEPIKA", l: "PADUKONE", d: "05 01 1986" },
+        "elon": { f: "ELON", l: "MUSK", d: "28 06 1971" },
+        "hardik": { f: "HARDIK", l: "PANDYA", d: "11 10 1993" },
+        "hrithik": { f: "HRITHIK", l: "ROSHAN", d: "10 01 1974" },
+        "bumrah": { f: "JASPRIT", l: "BUMRAH", d: "06 12 1993" },
+        "klrahul": { f: "K L", l: "RAHUL", d: "18 04 1992" },
+        "dhoni": { f: "MAHENDRA", l: "DHONI", d: "07 07 1981" },
+        "modi": { f: "NARENDRA", l: "MODI", d: "17 09 1950" },
+        "mukund": { f: "MUKUND", l: "VYAS", d: "12 05 1981" },
+        "rajnikant": { f: "RAJNIKANTH", l: "SHIVAJIRAO", d: "12 12 1950" },
+        "ranbir": { f: "RANBIR", l: "KAPOOR", d: "28 09 1982" },
+        "ratan": { f: "RATAN", l: "TATA", d: "28 12 1937" },
+        "rohit": { f: "ROHIT", l: "SHARMA", d: "30 04 1987" },
+        "sachin": { f: "SACHIN", l: "TENDULKAR", d: "24 04 1973" },
+        "salman": { f: "SALMAN", l: "KHAN", d: "27 12 1965" },
+        "srk": { f: "SHAH RUKH", l: "KHAN", d: "02 11 1965" },
+        "dhawan": { f: "SHIKHAR", l: "DHAWAN", d: "05 12 1985" },
+        "sundar": { f: "SUNDAR", l: "PICHAI", d: "10 06 1972" },
+        "surya": { f: "SURYAKUMAR", l: "YADAV", d: "14 09 1990" },
+        "virat": { f: "VIRAT", l: "KOHLI", d: "05 11 1988" },
+        "yash": { f: "YASH", l: "KGF", d: "08 01 1986" }
     };
 
-    const planetTableData = {
-        1: { planet: "सूर्य (Sun)", role: "राजा", features: "नेतृत्व, आत्मविश्वास, महत्त्वाकांक्षा, स्वाभिमान." },
-        2: { planet: "चंद्र (Moon)", role: "राणी", features: "कल्पकता, भावनाप्रधानता, शांतता, सहकार्य." },
-        3: { planet: "गुरु (Jupiter)", role: "गुरु/सल्लागार", features: "ज्ञान, शिस्त, आध्यात्मिक प्रगती, बुद्धिमत्ता." },
-        4: { planet: "राहू (Rahu)", role: "बंडखोर", features: "अचानक बदल, कष्ट, नवीन विचार, व्यवहारज्ञान." },
-        5: { planet: "बुध (Mercury)", role: "राजकुमार", features: "चपळता, संवाद कौशल्य, व्यापार, बुद्धी." },
-        6: { planet: "शुक्र (Venus)", role: "कलाकार", features: "सौंदर्य, प्रेम, चैनीचे जीवन, कला, कौटुंबिक सुख." },
-        7: { planet: "केतू (Ketu)", role: "साधू/योगी", features: "अध्यात्म, संशोधन, एकांतप्रियता, गूढ ज्ञान." },
-        8: { planet: "शनी (Saturn)", role: "न्यायाधीश", features: "न्याय, कष्ट, संयम, विलंब, यश (कष्टाने मिळणारे)." },
-        9: { planet: "मंगळ (Mars)", role: "सेनापती", features: "ऊर्जा, साहस, राग, धाडस, मानवतावाद." }
-    };
-
-    function validateDate(input) {
-        let val = input.value.replace(/\D/g, '');
-        if (parseInt(val) > 31) {
-            input.value = "31";
-        } else {
-            input.value = val;
-        }
-    }
-
-    function formatDate(input) {
-        let val = input.value.replace(/\D/g, '');
-        let formatted = "";
-        if (val.length > 0) {
-            formatted += val.substring(0, 2);
-            if (val.length > 2) {
-                formatted += " " + val.substring(2, 4);
-                if (val.length > 4) {
-                    formatted += " " + val.substring(4, 8);
-                }
-            }
-        }
-        input.value = formatted;
-    }
-
-    function getSingleDigit(n) {
-        if (!n || n === 0) return 0;
-        let d = n;
-        while (d > 9) d = String(d).split('').reduce((acc, digit) => acc + parseInt(digit), 0);
-        return d;
-    }
-
-    function getNameValue(name) {
-        let sum = 0;
-        for (let char of name.toUpperCase()) if (chaldeanChart[char]) sum += chaldeanChart[char];
-        return sum;
-    }
-
-    function updateBoxStyle(boxId, value) {
-        const box = document.getElementById(boxId);
-        const style = planetStyles[value] || planetStyles[0];
-        box.style.backgroundColor = style.color;
-        if (style.light) box.classList.add('light-bg-text');
-        else box.classList.remove('light-bg-text');
-    }
+    function formatDate(input) { let val = input.value.replace(/\D/g, ''); let f = ""; if (val.length > 0) { f += val.substring(0, 2); if (val.length > 2) f += " " + val.substring(2, 4); if (val.length > 4) f += " " + val.substring(4, 8); } input.value = f; }
+    function getSingleDigit(n) { if (!n || n === 0) return 0; let d = n; while (d > 9) d = String(d).split('').reduce((acc, digit) => acc + parseInt(digit), 0); return d; }
+    function getMixedSum(str) { let sum = 0; for (let char of str.toUpperCase()) if (chaldeanChart[char]) sum += chaldeanChart[char]; return sum; }
+    function getCharString(str) { let res = []; for (let char of str.toUpperCase()) if (chaldeanChart[char]) res.push(chaldeanChart[char]); return res.join(' '); }
 
     function calculateAll() {
-        const first = document.getElementById('firstName').value;
-        const last = document.getElementById('lastName').value;
-        const fSum = getNameValue(first);
-        const lSum = getNameValue(last);
-        
-        const fn = first.trim() === "" ? 0 : getSingleDigit(fSum);
-        const ln = last.trim() === "" ? 0 : getSingleDigit(lSum);
-        const nn = (first.trim() === "" && last.trim() === "") ? 0 : getSingleDigit(fSum + lSum);
+        const fName = document.getElementById('firstName').value, lName = document.getElementById('lastName').value, bInput = document.getElementById('bhagyankInput').value, mobVal = document.getElementById('mobileInput').value, assetInput = document.getElementById('assetInput').value;
+        document.getElementById('fnChars').innerText = getCharString(fName);
+        const fn = getSingleDigit(getMixedSum(fName)), ln = getSingleDigit(getMixedSum(lName)), nn = getSingleDigit(getMixedSum(fName + lName));
+        let bn = 0, dn = 0, age = 0; const bClean = bInput.replace(/\D/g, '');
+        if(bClean.length >= 2) { bn = getSingleDigit(parseInt(bClean.substring(0,2))); document.getElementById('bulbArea').style.display = "block"; document.getElementById('careerList').innerText = professionMap[bn]; }
+        if(bClean.length === 8) { dn = getSingleDigit(bClean.split('').reduce((a,b)=>a+parseInt(b),0)); age = 2026 - parseInt(bClean.substring(4,8)); document.getElementById('ageVal').innerText = age; document.getElementById('fullAgeLine').style.display = "block"; }
+        const mobDigit = getSingleDigit(mobVal.replace(/\D/g, '').split('').reduce((a,b)=>a+(parseInt(b)||0),0));
+        const assetDigit = getSingleDigit(getMixedSum(assetInput));
 
-        document.getElementById('fnDigit').innerText = fn;
-        document.getElementById('lnDigit').innerText = ln;
-        document.getElementById('nnDigit').innerText = nn;
+        document.getElementById('fnDigit').innerText = fn; document.getElementById('lnDigit').innerText = ln; document.getElementById('nnDigit').innerText = nn;
+        document.getElementById('bnDigit').innerText = bn; document.getElementById('dnDigit').innerText = dn; document.getElementById('mobDigit').innerText = mobDigit; document.getElementById('assetDigit').innerText = assetDigit;
 
-        updateBoxStyle('box-fn', fn);
-        updateBoxStyle('box-ln', ln);
-        updateBoxStyle('box-nn', nn);
+        const setCol = (id, val) => document.getElementById(id).style.backgroundColor = {0:"#4a4a4a",1:"#FF8C00",2:"#BDBDBD",3:"#FFD700",4:"#4B4B4B",5:"#4CAF50",6:"#F06292",7:"#795548",8:"#212121",9:"#D32F2F"}[val];
+        setCol('box-fn', fn); setCol('box-ln', ln); setCol('box-nn', nn); setCol('box-bn', bn); setCol('box-dn', dn); setCol('box-mob', mobDigit); setCol('box-asset', assetDigit);
 
-        const mInput = document.getElementById('mulankInput').value;
-        const bInput = document.getElementById('bhagyankInput').value.replace(/\D/g, '');
-        const mobInput = document.getElementById('mobileInput').value.replace(/\D/g, '');
+        updateBanner('rel-fn', fn, "FN"); updateBanner('rel-nn', nn, "NN");
 
-        const driver = mInput === "" ? 0 : getSingleDigit(mInput.split('').reduce((a,b)=>a+parseInt(b),0));
-        const cond = bInput === "" ? 0 : getSingleDigit(bInput.split('').reduce((a,b)=>a+parseInt(b),0));
-        const mob = mobInput === "" ? 0 : getSingleDigit(mobInput.split('').reduce((a,b)=>a+parseInt(b),0));
-
-        document.getElementById('mulankDigit').innerText = driver;
-        document.getElementById('bhagyankDigit').innerText = cond;
-        document.getElementById('mobileDigit').innerText = mob;
-
-        updateBoxStyle('box-driver', driver);
-        updateBoxStyle('box-conductor', cond);
-        updateBoxStyle('box-mobile', mob);
-
-        updateTable();
+        if(fName.length > 1 && bClean.length === 8) {
+            document.getElementById('brandSection').style.display = "block";
+            let msg = `Hello.. I Need Consultancy.%0A%0A*Name:* ${fName.toUpperCase()} ${lName.toUpperCase()}%0A*Birth Date:* ${bInput}%0A*Age:* ${age} Years%0A*BN:* ${bn} | *DN:* ${dn}%0A*FN:* ${fn} | *NN:* ${nn}%0A*Mobile:* ${mobVal} (Total: ${mobDigit})%0A`;
+            if(assetInput.trim() !== "") msg += `*Asset Name:* ${assetInput.toUpperCase()} (Total: ${assetDigit})%0A`;
+            document.getElementById('waLink').href = `https://wa.me/919823204381?text=${msg}`;
+        } else { document.getElementById('brandSection').style.display = "none"; }
     }
 
-    function updateTable() {
-        const activeNums = new Set();
-        document.querySelectorAll('.result-num').forEach(el => {
-            const val = parseInt(el.innerText);
-            if (val > 0 && val <= 9) activeNums.add(val);
-        });
+    function updateBanner(id, digit, label) {
+        const el = document.getElementById(id);
+        if(digit > 0) {
+            const r = relationshipChart[digit];
+            el.innerHTML = `<strong>${label} ${digit}:</strong> <span style="color:green;">मित्र: ${r.f.join(', ')}</span> | <span style="color:red;">शत्रू: ${r.e.join(', ')}</span> | <span style="color:blue;">सम: ${r.n.join(', ')}</span>`;
+            el.style.display = "block";
+        } else el.style.display = "none";
+    }
 
-        const area = document.getElementById('tableArea');
-        if (activeNums.size > 0) {
-            let html = `<table><thead><tr><th>अंक</th><th>सत्ताधारी ग्रह</th><th>भूमिका</th><th>वैशिष्ट्ये</th></tr></thead><tbody>`;
-            Array.from(activeNums).sort().forEach(num => {
-                const data = planetTableData[num];
-                html += `<tr><td style="text-align:center;font-weight:bold;">${num}</td><td>${data.planet}</td><td>${data.role}</td><td>${data.features}</td></tr>`;
-            });
-            html += `</tbody></table>`;
-            area.innerHTML = html;
-            area.style.display = 'block';
-        } else {
-            area.style.display = 'none';
+    let currentOpenPlanet = null;
+    function togglePlanet(num) {
+        const box = document.getElementById('planetInfoBox');
+        if (currentOpenPlanet === num) { box.style.display = "none"; currentOpenPlanet = null; } 
+        else { const d = planetMap[num]; document.getElementById('pTitle').innerText = `${num} - ${d.p}`; document.getElementById('pDesc').innerText = d.c; document.getElementById('pColor').innerText = `शुभ रंग: ${d.r}`; document.getElementById('pLetters').innerText = `अक्षरे: ${d.a}`; box.style.display = "block"; currentOpenPlanet = num; }
+    }
+
+    function toggleCareer() {
+        const sec = document.getElementById('careerSection');
+        const bulb = document.getElementById('mainBulb');
+        if(sec.style.display === "block") { sec.style.display = "none"; bulb.classList.add('bulb-glow-on'); }
+        else { sec.style.display = "block"; bulb.classList.remove('bulb-glow-on'); }
+    }
+
+    function loadCelebrity() {
+        const val = document.getElementById('celebritySelect').value;
+        if(val && celebrityData[val]) {
+            const d = celebrityData[val];
+            document.getElementById('firstName').value = d.f;
+            document.getElementById('lastName').value = (d.l || "");
+            document.getElementById('bhagyankInput').value = d.d;
+            calculateAll();
         }
     }
 </script>
-
 </body>
 </html>
