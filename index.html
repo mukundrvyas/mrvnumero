@@ -71,6 +71,7 @@
         <span class="by-line">by Mukund Vyas</span>
     </div>
 
+    <!-- Dropdown Sorted Alphabetically -->
     <div class="input-group">
         <span class="label">⭐ सेलिब्रिटी केस स्टडी निवड:</span>
         <select id="celebritySelect" onchange="loadCelebrity()">
@@ -79,17 +80,19 @@
             <option value="ajay">AJAY DEVGN</option>
             <option value="akshay">AKSHAY KUMAR</option>
             <option value="allu">ALLU ARJUN</option>
-            <option value="amitabh">AMITABH BACHCHAN</option>
             <option value="ambani">MUKESH AMBANI</option>
+            <option value="amitabh">AMITABH BACHCHAN</option>
             <option value="bill">BILL GATES</option>
+            <option value="bumrah">JASPRIT BUMRAH</option>
             <option value="deepika">DEEPIKA PADUKONE</option>
+            <option value="dhawan">SHIKHAR DHAWAN</option>
+            <option value="dhoni">MAHENDRA DHONI</option>
             <option value="elon">ELON MUSK</option>
             <option value="hardik">HARDIK PANDYA</option>
             <option value="hrithik">HRITHIK ROSHAN</option>
-            <option value="bumrah">JASPRIT BUMRAH</option>
             <option value="klrahul">K L RAHUL</option>
-            <option value="dhoni">MAHENDRA DHONI</option>
             <option value="modi">NARENDRA MODI</option>
+            <option value="mrunal">MRUNAL SHAH</option>
             <option value="mukund">MUKUND VYAS</option>
             <option value="rajnikant">RAJNIKANTH</option>
             <option value="ranbir">RANBIR KAPOOR</option>
@@ -98,7 +101,6 @@
             <option value="sachin">SACHIN TENDULKAR</option>
             <option value="salman">SALMAN KHAN</option>
             <option value="srk">SHAH RUKH KHAN</option>
-            <option value="dhawan">SHIKHAR DHAWAN</option>
             <option value="sundar">SUNDAR PICHAI</option>
             <option value="surya">SURYAKUMAR YADAV</option>
             <option value="virat">VIRAT KOHLI</option>
@@ -142,6 +144,7 @@
             <div class="result-box" id="box-ln"><span class="res-label">LN</span><span id="lnDigit" class="res-digit">0</span></div>
             <div class="result-box" id="box-nn" style="margin-left:2px;"><span class="res-label">NN</span><span id="nnDigit" class="res-digit">0</span></div>
         </div>
+        <div id="lnChars" class="char-breakdown"></div>
         <div id="rel-nn" class="rel-banner"></div>
     </div>
 
@@ -184,7 +187,7 @@
     <div id="brandSection" class="branding-section">
         <span style="font-size:1.2rem; font-weight:900; color:var(--primary-brown); display:block; text-transform:uppercase;">Mukund Vyas</span>
         <a id="waLink" href="#" class="whatsapp-btn" target="_blank">
-            <svg viewBox="0 0 448 512"><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.7 17.8 69.7 27.2 106.2 27.2 122.4 0 222-99.6 222-222 0-59.3-23-115.1-65-157.1zM223.9 446.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3 18.7-68.1-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-5.6-2.8-23.5-8.6-44.8-27.6-16.6-14.8-27.8-33.1-31.1-38.6-3.2-5.6-.3-8.6 2.5-11.4 2.5-2.5 5.5-6.5 8.3-9.8 2.8-3.3 3.7-5.6 5.5-9.3 1.8-3.7.9-6.9-.5-9.8-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 13.2 5.8 23.5 9.2 31.5 11.8 13.3 4.2 25.4 3.6 35 2.2 10.7-1.5 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/></svg>
+            <svg viewBox="0 0 448 512"><path d="M380.9 97.1C339 55.1 283.2 32(223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.7 17.8 69.7 27.2 106.2 27.2 122.4 0 222-99.6 222-222 0-59.3-23-115.1-65-157.1zM223.9 446.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3 18.7-68.1-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-5.6-2.8-23.5-8.6-44.8-27.6-16.6-14.8-27.8-33.1-31.1-38.6-3.2-5.6-.3-8.6 2.5-11.4 2.5-2.5 5.5-6.5 8.3-9.8 2.8-3.3 3.7-5.6 5.5-9.3 1.8-3.7.9-6.9-.5-9.8-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 13.2 5.8 23.5 9.2 31.5 11.8 13.3 4.2 25.4 3.6 35 2.2 10.7-1.5 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/></svg>
             Whatsapp Me
         </a>
         <div class="expertise-list">
@@ -198,37 +201,39 @@
     const chaldeanChart = {'A':1,'I':1,'J':1,'Q':1,'Y':1,'B':2,'K':2,'R':2,'C':3,'G':3,'L':3,'S':3,'D':4,'M':4,'T':4,'E':5,'H':5,'N':5,'X':5,'U':6,'V':6,'W':6,'O':7,'Z':7,'F':8,'P':8};
     const relationshipChart = { 1:{f:[1,2,3,5,6,9],e:[8],n:[4,7]}, 2:{f:[1,2,3,5],e:[8,4,9],n:[7,6]}, 3:{f:[1,2,3,5,7],e:[6],n:[4,8,9]}, 4:{f:[1,5,7,6,4,8],e:[2,9],n:[3]}, 5:{f:[1,2,3,5,6],e:[],n:[4,7,8,9]}, 6:{f:[1,4,5,6,7],e:[3],n:[2,8,9]}, 7:{f:[1,3,5,4,6],e:[],n:[8,2,7,9]}, 8:{f:[5,3,6,7,4,8],e:[1,2],n:[9]}, 9:{f:[1,3,5],e:[4,2],n:[9,7,6,8]} };
     const planetMap = { 1:{p:"सूर्य (Sun)",r:"नारंगी",a:"A,I,J,Q,Y",c:"नेतृत्व, आत्मविश्वास आणि राजसत्ता."}, 2:{p:"चंद्र (Moon)",r:"पांढरा",a:"B,K,R",c:"कल्पकता, शांती आणि मनाची चंचलता."}, 3:{p:"गुरु (Jupiter)",r:"पिवळा",a:"C,G,L,S",c:"ज्ञान, शिस्त आणि आध्यात्मिक प्रगती."}, 4:{p:"राहू (Rahu)",r:"राखी",a:"D,M,T",c:"अचानक बदल आणि कष्टाने यश."}, 5:{p:"बुध (Mercury)",r:"हिरवा",a:"E,H,N,X",c:"व्यापार बुद्धी आणि संवाद कौशल्य."}, 6:{p:"शुक्र (Venus)",r:"गुलाबी",a:"U,V,W",c:"विलासी जीवन, सौंदर्य आणि कला."}, 7:{p:"केतू (Ketu)",r:"तपकरी",a:"O,Z",c:"संशोधन आणि गूढ अध्यात्म."}, 8:{p:"शनी (Saturn)",r:"काळा",a:"F,P",c:"न्याय, संयम आणि शिस्त."}, 9:{p:"मंगळ (Mars)",r:"लाल",a:"None",c:"ऊर्जा आणि धाडसी स्वभाव."} };
-    const professionMap = { 1:"सरकारी नोकरी, सोने व्यापार, औषधी.", 2:"डेअरी, संगीत, आयात-निर्यात.", 3:"शिक्षण, बँकिंग, सल्लागार.", 4:"IT क्षेत्र, शेअर मार्केट, ज्योतिष.", 5:"मार्केटिंग, व्यापार, ई-कॉमर्स.", 6:"फॅशन, हॉटेलिंग, हिरे व्यापार.", 7:"संशोधन, लेखक, तांत्रिक शिक्षण.", 8:"लोखंड, खाणकाम, मशिनरी.", 9:"लष्कर, क्रीडा, शस्त्रक्रिया." };
+    const professionMap = { 1:"सरकारी नोकरी, सोने व्यापार, औषधी.", 2:"डेअरी, संगीत, आयात-निर्यात.", 3:"शिक्षण, बँकिंग, सल्लागार, धार्मिक कार्य.", 4:"IT क्षेत्र, इंजिनिअरिंग, शेअर मार्केट.", 5:"मार्केटिंग, व्यापार, ई-कॉमर्स.", 6:"फॅशन, हॉटेलिंग, हिरे व्यापार.", 7:"संशोधन, लेखक, तांत्रिक शिक्षण.", 8:"लोखंड, खाणकाम, मशिनरी.", 9:"लष्कर, क्रीडा, शस्त्रक्रिया." };
 
+    // Celebrity Objects Sorted Alphabetically
     const celebrityData = { 
-        "aamir": { f: "AAMIR", l: "KHAN", d: "14 03 1965" },
-        "ajay": { f: "AJAY", l: "DEVGN", d: "02 04 1969" },
-        "akshay": { f: "AKSHAY", l: "KUMAR", d: "09 09 1967" },
-        "allu": { f: "ALLU", l: "ARJUN", d: "08 04 1982" },
-        "amitabh": { f: "AMITABH", l: "BACHCHAN", d: "11 10 1942" },
-        "ambani": { f: "MUKESH", l: "AMBANI", d: "19 04 1957" },
-        "bill": { f: "BILL", l: "GATES", d: "28 10 1955" },
-        "deepika": { f: "DEEPIKA", l: "PADUKONE", d: "05 01 1986" },
-        "elon": { f: "ELON", l: "MUSK", d: "28 06 1971" },
-        "hardik": { f: "HARDIK", l: "PANDYA", d: "11 10 1993" },
-        "hrithik": { f: "HRITHIK", l: "ROSHAN", d: "10 01 1974" },
-        "bumrah": { f: "JASPRIT", l: "BUMRAH", d: "06 12 1993" },
-        "klrahul": { f: "K L", l: "RAHUL", d: "18 04 1992" },
-        "dhoni": { f: "MAHENDRA", l: "DHONI", d: "07 07 1981" },
-        "modi": { f: "NARENDRA", l: "MODI", d: "17 09 1950" },
-        "mukund": { f: "MUKUND", l: "VYAS", d: "12 05 1981" },
-        "rajnikant": { f: "RAJNIKANTH", l: "SHIVAJIRAO", d: "12 12 1950" },
-        "ranbir": { f: "RANBIR", l: "KAPOOR", d: "28 09 1982" },
-        "ratan": { f: "RATAN", l: "TATA", d: "28 12 1937" },
-        "rohit": { f: "ROHIT", l: "SHARMA", d: "30 04 1987" },
-        "sachin": { f: "SACHIN", l: "TENDULKAR", d: "24 04 1973" },
-        "salman": { f: "SALMAN", l: "KHAN", d: "27 12 1965" },
-        "srk": { f: "SHAH RUKH", l: "KHAN", d: "02 11 1965" },
-        "dhawan": { f: "SHIKHAR", l: "DHAWAN", d: "05 12 1985" },
-        "sundar": { f: "SUNDAR", l: "PICHAI", d: "10 06 1972" },
-        "surya": { f: "SURYAKUMAR", l: "YADAV", d: "14 09 1990" },
-        "virat": { f: "VIRAT", l: "KOHLI", d: "05 11 1988" },
-        "yash": { f: "YASH", l: "KGF", d: "08 01 1986" }
+        "aamir": { f: "AAMIR", l: "KHAN", d: "14 03 1965", m: "", a: "AAMIR KHAN PRODUCTIONS" },
+        "ajay": { f: "AJAY", l: "DEVGN", d: "02 04 1969", m: "", a: "NY VFXWAALA" },
+        "akshay": { f: "AKSHAY", l: "KUMAR", d: "09 09 1967", m: "", a: "CAPE OF GOOD FILMS" },
+        "allu": { f: "ALLU", l: "ARJUN", d: "08 04 1982", m: "", a: "AAA CINEMAS" },
+        "ambani": { f: "MUKESH", l: "AMBANI", d: "19 04 1957", m: "", a: "RELIANCE INDUSTRIES" },
+        "amitabh": { f: "AMITABH", l: "BACHCHAN", d: "11 10 1942", m: "", a: "AB CORP" },
+        "bill": { f: "BILL", l: "GATES", d: "28 10 1955", m: "", a: "MICROSOFT" },
+        "bumrah": { f: "JASPRIT", l: "BUMRAH", d: "06 12 1993", m: "", a: "JB SPORTS" },
+        "deepika": { f: "DEEPIKA", l: "PADUKONE", d: "05 01 1986", m: "", a: "KA ENTERTAINMENT" },
+        "dhawan": { f: "SHIKHAR", l: "DHAWAN", d: "05 12 1985", m: "", a: "DA ONE" },
+        "dhoni": { f: "MAHENDRA", l: "DHONI", d: "07 07 1981", m: "", a: "SEVEN MSD" },
+        "elon": { f: "ELON", l: "MUSK", d: "28 06 1971", m: "", a: "TESLA SPACEX" },
+        "hardik": { f: "HARDIK", l: "PANDYA", d: "11 10 1993", m: "", a: "HP7 ENTERPRISES" },
+        "hrithik": { f: "HRITHIK", l: "ROSHAN", d: "10 01 1974", m: "", a: "HRX BRAND" },
+        "klrahul": { f: "K L", l: "RAHUL", d: "18 04 1992", m: "", a: "1GULY" },
+        "modi": { f: "NARENDRA", l: "MODI", d: "17 09 1950", m: "", a: "GOVERNMENT OF INDIA" },
+        "mrunal": { f: "MRUNAL", l: "SHAH", d: "19 11 1989", m: "8623985673", a: "KOSMIC ENERGY" },
+        "mukund": { f: "MUKUND", l: "VYAS", d: "12 05 1981", m: "9823204381", a: "JUST CLICK COMPUTERS" },
+        "rajnikant": { f: "RAJNIKANTH", l: "SHIVAJIRAO", d: "12 12 1950", m: "", a: "VALLIAPPA FILMS" },
+        "ranbir": { f: "RANBIR", l: "KAPOOR", d: "28 09 1982", m: "", a: "PICTURE SHURU" },
+        "ratan": { f: "RATAN", l: "TATA", d: "28 12 1937", m: "", a: "TATA SONS" },
+        "rohit": { f: "ROHIT", l: "SHARMA", d: "30 04 1987" , m: "", a: "CRICINGIF"},
+        "sachin": { f: "SACHIN", l: "TENDULKAR", d: "24 04 1973", m: "", a: "SRT SPORTS MANAGEMENT" },
+        "salman": { f: "SALMAN", l: "KHAN", d: "27 12 1965", m: "", a: "BEING HUMAN" },
+        "srk": { f: "SHAH RUKH", l: "KHAN", d: "02 11 1965", m: "", a: "RED CHILLIES" },
+        "sundar": { f: "SUNDAR", l: "PICHAI", d: "10 06 1972", m: "", a: "GOOGLE ALPHABET" },
+        "surya": { f: "SURYAKUMAR", l: "YADAV", d: "14 09 1990", m: "", a: "SKY ACADEMY" },
+        "virat": { f: "VIRAT", l: "KOHLI", d: "05 11 1988", m: "", a: "ONE8 WROGN" },
+        "yash": { f: "YASH", l: "KGF", d: "08 01 1986", m: "", a: "KIRATAKA PRODUCTIONS" }
     };
 
     function formatDate(input) { let val = input.value.replace(/\D/g, ''); let f = ""; if (val.length > 0) { f += val.substring(0, 2); if (val.length > 2) f += " " + val.substring(2, 4); if (val.length > 4) f += " " + val.substring(4, 8); } input.value = f; }
@@ -238,8 +243,14 @@
 
     function calculateAll() {
         const fName = document.getElementById('firstName').value, lName = document.getElementById('lastName').value, bInput = document.getElementById('bhagyankInput').value, mobVal = document.getElementById('mobileInput').value, assetInput = document.getElementById('assetInput').value;
-        document.getElementById('fnChars').innerText = getCharString(fName);
-        const fn = getSingleDigit(getMixedSum(fName)), ln = getSingleDigit(getMixedSum(lName)), nn = getSingleDigit(getMixedSum(fName + lName));
+        
+        const fnCompound = getMixedSum(fName);
+        const lnCompound = getMixedSum(lName);
+        
+        document.getElementById('fnChars').innerText = getCharString(fName) + (fnCompound > 0 ? ` (Compound: ${fnCompound})` : "");
+        document.getElementById('lnChars').innerText = getCharString(lName) + (lnCompound > 0 ? ` (Compound: ${lnCompound})` : "");
+        
+        const fn = getSingleDigit(fnCompound), ln = getSingleDigit(lnCompound), nn = getSingleDigit(getMixedSum(fName + lName));
         let bn = 0, dn = 0, age = 0; const bClean = bInput.replace(/\D/g, '');
         if(bClean.length >= 2) { bn = getSingleDigit(parseInt(bClean.substring(0,2))); document.getElementById('bulbArea').style.display = "block"; document.getElementById('careerList').innerText = professionMap[bn]; }
         if(bClean.length === 8) { dn = getSingleDigit(bClean.split('').reduce((a,b)=>a+parseInt(b),0)); age = 2026 - parseInt(bClean.substring(4,8)); document.getElementById('ageVal').innerText = age; document.getElementById('fullAgeLine').style.display = "block"; }
@@ -292,6 +303,8 @@
             document.getElementById('firstName').value = d.f;
             document.getElementById('lastName').value = (d.l || "");
             document.getElementById('bhagyankInput').value = d.d;
+            document.getElementById('mobileInput').value = (d.m || "");
+            document.getElementById('assetInput').value = (d.a || ""); 
             calculateAll();
         }
     }
