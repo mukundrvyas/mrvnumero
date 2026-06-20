@@ -14,16 +14,8 @@
             --danger-red: #D32F2F;
         }
 
-        @keyframes slideUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
-        @keyframes bulbGlow {
-            0% { box-shadow: 0 0 5px #fff; filter: brightness(100%); }
-            50% { box-shadow: 0 0 20px #ffeb3b, 0 0 35px #fff176; filter: brightness(130%); }
-            100% { box-shadow: 0 0 5px #fff; filter: brightness(100%); }
-        }
-
         body { font-family: 'Segoe UI', sans-serif; background: var(--bg-gradient); margin: 0; padding: 10px; display: flex; justify-content: center; min-height: 100vh; }
-        .container { background: var(--container-bg); padding: 1.2rem; border-radius: 25px; box-shadow: 0 15px 35px rgba(0,0,0,0.15); width: 100%; max-width: 750px; animation: slideUp 0.7s ease-out; box-sizing: border-box; }
+        .container { background: var(--container-bg); padding: 1.2rem; border-radius: 25px; box-shadow: 0 15px 35px rgba(0,0,0,0.15); width: 100%; max-width: 750px; box-sizing: border-box; }
 
         .header-section { text-align: center; border-bottom: 3px solid var(--primary-gold); padding-bottom: 10px; margin-bottom: 20px; }
         h2 { color: var(--primary-brown); margin: 0; text-transform: uppercase; letter-spacing: 2px; font-size: 1.4rem; }
@@ -50,14 +42,9 @@
 
         .rel-banner { font-size: 0.75rem; font-weight: 700; background: rgba(0,0,0,0.03); padding: 8px; border-radius: 10px; border-left: 5px solid var(--primary-gold); display: none; margin-top: 5px; line-height: 1.4; }
 
-        .mobile-report-card { display: none; background: #fafafa; border: 2px solid #ccc; border-radius: 15px; padding: 12px; margin-top: 10px; font-size: 0.85rem; }
-        .pair-badge { display: inline-block; padding: 3px 8px; border-radius: 6px; font-weight: bold; color: white; font-size: 0.75rem; }
-        .badge-good { background-color: #4CAF50; }
-        .badge-vgood { background-color: #2E7D32; }
-        .badge-best { background-color: #1B5E20; box-shadow: 0 0 5px #1B5E20; }
-        .badge-avr { background-color: #FFA000; }
-        .badge-avoid { background-color: #D32F2F; }
-        .warning-text { color: #D32F2F; font-weight: bold; margin-top: 4px; display: block; }
+        .mobile-report-card { display: none; background: #fdfefe; border: 2px solid #b8860b; border-radius: 15px; padding: 15px; margin-top: 10px; font-size: 0.88rem; line-height: 1.5; }
+        .warning-text { color: #D32F2F; font-weight: bold; display: block; margin-top: 4px; }
+        .success-text { color: #2E7D32; font-weight: bold; display: block; margin-top: 4px; }
 
         .bulb-container { text-align: center; margin: 15px 0; display: none; }
         .bulb-btn { background: #fff176; border: 2px solid #fbc02d; border-radius: 50%; width: 50px; height: 50px; cursor: pointer; font-size: 24px; display: inline-flex; align-items: center; justify-content: center; }
@@ -72,7 +59,7 @@
         .expertise-list { font-size: 0.82rem; color: var(--primary-brown); font-weight: 800; margin-top: 12px; border-top: 1px solid #ccc; padding-top: 12px; line-height: 1.6; }
         hr { border: 0; border-top: 2px solid #ddd; margin: 1.2rem 0; }
         .full-age-text { font-size: 0.85rem; font-weight: 800; color: #4a4a4a; margin-top: 5px; display: none; }
-        .char-breakdown { font-size: 0.85rem; color: var(--primary-gold); font-weight: 900; letter-spacing: 4px; height: 1.2rem; }
+        .char-breakdown { font-size: 0.85rem; color: var(--primary-gold); font-weight: 900; letter-spacing: 2px; height: auto; margin-top: 3px; }
     </style>
 </head>
 <body>
@@ -153,14 +140,14 @@
         <div class="flex-row">
             <div style="flex:1"><input type="text" id="lastName" placeholder="आडनाव टाका" oninput="calculateAll()"></div>
             <div class="result-box" id="box-ln"><span class="res-label">LN</span><span id="lnDigit" class="res-digit">0</span></div>
-            <div class="result-box" id="box-nn" style="margin-left:2px;"><span class="res-label">NN</span><span id="nnDigit" class="res-digit">0</span></div>
+            <div class="result-box" id="box-nn" style="margin-left:2px;"><span class="res-label" id="nnLabel">NN</span><span id="nnDigit" class="res-digit">0</span></div>
         </div>
         <div id="lnChars" class="char-breakdown"></div>
         <div id="rel-nn" class="rel-banner"></div>
     </div>
 
     <div class="input-group">
-        <span class="label">जन्म तारीख:</span>
+        <span class="label" id="dobLabel">जन्म तारीख:</span>
         <div class="flex-row" style="gap: 5px; flex-wrap: nowrap;">
             <div style="flex: 2;"><input type="tel" id="bhagyankInput" placeholder="DD MM YYYY" maxlength="10" oninput="formatDate(this); calculateAll();" style="text-align: left; padding-left: 15px;"></div>
             <div class="result-box" id="box-bn" style="margin-left:5px;"><span class="res-label">BN</span><span id="bnDigit" class="res-digit">0</span></div>
@@ -180,7 +167,7 @@
     </div>
 
     <div class="input-group">
-        <span class="label">मोबाईल नंबर:</span>
+        <span class="label" id="mobLabel">मोबाईल नंबर:</span>
         <div class="flex-row">
             <div style="flex:1"><input type="tel" id="mobileInput" placeholder="१० अंक" maxlength="10" oninput="calculateAll()"></div>
             <div class="result-box" id="box-mob"><span class="res-label">MOB</span><span id="mobDigit" class="res-digit">0</span></div>
@@ -219,7 +206,7 @@
     <div id="brandSection" class="branding-section">
         <span style="font-size:1.2rem; font-weight:900; color:var(--primary-brown); display:block; text-transform:uppercase;">Mukund Vyas</span>
         <a id="waLink" href="#" class="whatsapp-btn" target="_blank">
-            <svg viewBox="0 0 448 512"><path d="M380.9 97.1C339 55.1 283.2 32(223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.7 17.8 69.7 27.2 106.2 27.2 122.4 0 222-99.6 222-222 0-59.3-23-115.1-65-157.1zM223.9 446.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3 18.7-68.1-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-5.6-2.8-23.5-8.6-44.8-27.6-16.6-14.8-27.8-33.1-31.1-38.6-3.2-5.6-.3-8.6 2.5-11.4 2.5-2.5 5.5-6.5 8.3-9.8 2.8-3.3 3.7-5.6 5.5-9.3 1.8-3.7.9-6.9-.5-9.8-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 13.2 5.8 23.5 9.2 31.5 11.8 13.3 4.2 25.4 3.6 35 2.2 10.7-1.5 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/></svg>
+            <svg viewBox="0 0 448 512"><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.7 17.8 69.7 27.2 106.2 27.2 122.4 0 222-99.6 222-222 0-59.3-23-115.1-65-157.1zM223.9 446.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3 18.7-68.1-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-5.6-2.8-23.5-8.6-44.8-27.6-16.6-14.8-27.8-33.1-31.1-38.6-3.2-5.6-.3-8.6 2.5-11.4 2.5-2.5 5.5-6.5 8.3-9.8 2.8-3.3 3.7-5.6 5.5-9.3 1.8-3.7.9-6.9-.5-9.8-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 13.2 5.8 23.5 9.2 31.5 11.8 13.3 4.2 25.4 3.6 35 2.2 10.7-1.5 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/></svg>
             Whatsapp Me
         </a>
         <div class="expertise-list">
@@ -233,64 +220,7 @@
     const chaldeanChart = {'A':1,'I':1,'J':1,'Q':1,'Y':1,'B':2,'K':2,'R':2,'C':3,'G':3,'L':3,'S':3,'D':4,'M':4,'T':4,'E':5,'H':5,'N':5,'X':5,'U':6,'V':6,'W':6,'O':7,'Z':7,'F':8,'P':8};
     const relationshipChart = { 1:{f:[1,2,3,5,6,9],e:[8],n:[4,7]}, 2:{f:[1,2,3,5],e:[8,4,9],n:[7,6]}, 3:{f:[1,2,3,5,7],e:[6],n:[4,8,9]}, 4:{f:[1,5,7,6,4,8],e:[2,9],n:[3]}, 5:{f:[1,2,3,5,6],e:[],n:[4,7,8,9]}, 6:{f:[1,4,5,6,7],e:[3],n:[2,8,9]}, 7:{f:[1,3,5,4,6],e:[],n:[8,2,7,9]}, 8:{f:[5,3,6,7,4,8],e:[1,2],n:[9]}, 9:{f:[1,3,5],e:[4,2],n:[9,7,6,8]} };
     const planetMap = { 1:{p:"सूर्य (Sun)",r:"नारंगी",a:"A,I,J,Q,Y",c:"नेतृत्व, आत्मविश्वास आणि राजसत्ता."}, 2:{p:"चंद्र (Moon)",r:"पांढरा",a:"B,K,R",c:"कल्पकता, शांती आणि मनाची चंचलता."}, 3:{p:"गुरु (Jupiter)",r:"पिवळा",a:"C,G,L,S",c:"ज्ञान, शिस्त आणि आध्यात्मिक प्रगती."}, 4:{p:"राहू (Rahu)",r:"राखी",a:"D,M,T",c:"अचानक बदल आणि कष्टाने यश."}, 5:{p:"बुध (Mercury)",r:"हिरवा",a:"E,H,N,X",c:"व्यापार बुद्धी आणि संवाद कौशल्य."}, 6:{p:"शुक्र (Venus)",r:"गुलाबी",a:"U,V,W",c:"विलासी जीवन, सौंदर्य आणि कला."}, 7:{p:"केतू (Ketu)",r:"तपकरी",a:"O,Z",c:"संशोधन आणि गूढ अध्यात्म."}, 8:{p:"शनी (Saturn)",r:"काळा",a:"F,P",c:"न्याय, संयम आणि शिस्त."}, 9:{p:"मंगळ (Mars)",r:"लाल",a:"None",c:"ऊर्जा आणि धाडसी स्वभाव."} };
-    const professionMap = { 1:"सरकारी नोकरी, सोने व्यापार, औषधी.", 2:"डेअरी, संगीत, आयात-निर्यात.", 3:"शिक्षण, बँकिंग, सल्लागार, धार्मिक कार्य.", 4:"IT क्षेत्र, इंजिनिअरिंग, शेअर मार्केट.", 5:"मार्केटिंग, व्यापार, ई-कॉमर्स.", 6:"फॅशन, हॉटेलिंग, हिरे व्यापार.", 7:"संशोधन, लेखक, तांत्रिक शिक्षण.", 8:"लोखंड, खाणकाम, मशिनरी.", 9:"लष्कर, क्रीडा, शस्त्रक्रिया." };
-
-    // COMPREHENSIVE COMBINED PAIR RULES FROM DOCX
-    const pairRules = {
-        "01":"GOOD BUT AVOID IT AT END OR 3, 4 AND 5 PART", "10":"GOOD BUT AVOID IT AT END OR 3, 4 AND 5 PART",
-        "02":"GOOD AVOID AT 3 4 5 PART", "20":"GOOD AVOID AT 3 4 5 PART",
-        "03":"GOOD AVOID AT 3 4 5 PART", "30":"GOOD AVOID AT 3 4 5 PART",
-        "04":"AVR IN TECH CAN USE 3 AND 5 PART", "40":"AVR IN TECH CAN USE 3 AND 5 PART",
-        "05":"GOOD AVOID AT 3 4 5 PART", "50":"GOOD AVOID AT 3 4 5 PART",
-        "06":"GOOD AVOID AT 3 4 5 PART", "60":"GOOD AVOID AT 3 4 5 PART",
-        "07":"AVR (AVOID IF BN/DN IS 7) AVOID AT 3 4 5 PART", "70":"AVR (AVOID IF BN/DN IS 7) AVOID AT 3 4 5 PART",
-        "08":"AVOID", "80":"AVOID",
-        "09":"GOOD AVOID AT 3 4 5 PART", "90":"GOOD AVOID AT 3 4 5 PART",
-        "11":"GOOD", 
-        "12":"GOOD AVOID AT 5 PART", "21":"NOT GOOD", 
-        "13":"AVR", "31":"AVR", 
-        "14":"AVOID", "41":"AVOID", 
-        "15":"GOOD", "51":"GOOD", 
-        "16":"GOOD BUT FOR PEOPLE IN OCCULT SCIENCE", "61":"GOOD BUT FOR PEOPLE IN OCCULT SCIENCE", 
-        "17":"GOOD", "71":"GOOD", 
-        "18":"NOT GOOD", "81":"NOT GOOD", 
-        "19":"V GOOD", "91":"V GOOD", 
-        "22":"GOOD", "23":"GOOD", 
-        "24":"GOOD AVOID AT 5TH PLACE", "42":"NOT GOOD",
-        "25":"VERY GOOD", "52":"VERY GOOD", 
-        "26":"NOT GOOD", "62":"NOT GOOD", 
-        "27":"AVR", "72":"AVR",
-        "28":"AVOID", "82":"AVOID", 
-        "29":"V GOOD", "92":"V GOOD", 
-        "32":"NOT GOOD", "33":"V GOOD (BEST)",
-        "34":"GOOD BUT 4TH AN 5TH AVOID", "43":"GOOD BUT 4TH AN 5TH AVOID", 
-        "35":"GOOD ( STAY AWAY FROM FAMILY)", "53":"GOOD ( STAY AWAY FROM FAMILY)", 
-        "36":"AVR", "63":"AVR", 
-        "37":"V GOOD ESPECIALLY OCCULT SCIENCE", "73":"V GOOD ESPECIALLY OCCULT SCIENCE", 
-        "38":"NOT GOOD", "83":"NOT GOOD", 
-        "39":"V GOOD", "93":"V GOOD", 
-        "44":"NOT GOOD BUT FOR DOCTOR / ASTROLER/DIGITAL MARKETING IS GOOD", 
-        "45":"NOT GOOD", "54":"NOT GOOD",
-        "46":"NOT GOOD", "64":"NOT GOOD", 
-        "47":"GOOD BUT 4TH AND 5TH AVOID", "74":"GOOD BUT 4TH AND 5TH AVOID",
-        "48":"NOT GOOD", "84":"NOT GOOD", 
-        "49":"NOT GOOD", "94":"NOT GOOD", 
-        "55":"GOOD ESPECIALLY FOR BUSINESS NUMBER",
-        "56":"GOOD BUT FOR RELATIONSHIP IS GOOD", "65":"GOOD BUT FOR RELATIONSHIP IS GOOD", 
-        "57":"GOOD", "75":"GOOD", 
-        "58":"NOT GOOD", "85":"NOT GOOD", 
-        "59":"GOOD", "95":"GOOD", 
-        "66":"IS GOOD", 
-        "67":"NOT GOOD", "76":"NOT GOOD", 
-        "68":"V GOOD", "86":"V GOOD", 
-        "69":"GOOD", "96":"GOOD", 
-        "77":"GOOD BUT BEST FOR PEOPLE IN RESEARCH , SCIENCETIST", 
-        "78":"GOOD BUT FOR MEDICAL PEOPLE", "87":"GOOD BUT FOR MEDICAL PEOPLE", 
-        "79":"NOT GOOD", "97":"NOT GOOD", 
-        "88":"GOOD BUT AVOID AT 4TH AND 5TH SET",
-        "89":"IS GOOD", "98":"IS GOOD", 
-        "99":"GOOD BUT AVOID AT 5TH SET"
-    };
+    const professionMap = { 1:"सरकारी नोकरी, सोने व्यापार, औषधी कार्य.", 2:"डेअरी, संगीत, आयात-निर्यात व्यापार.", 3:"शिक्षण, बँकिंग, वैयक्तिक सल्लागार, धार्मिक.", 4:"IT क्षेत्र, इंजिनिअरिंग, शेअर मार्केट.", 5:"मार्केटिंग, व्यापार, ई-कॉमर्स बिजनेस.", 6:"फॅशन, हॉटेलिंग, हिरे आणि लक्झरी व्यापार.", 7:"संशोधन, लेखक, तांत्रिक उच्च शिक्षण.", 8:"लोखंड, खाणकाम, अवजड मशिनरी.", 9:"लष्कर, क्रीडा, शस्त्रक्रिया क्षेत्र." };
 
     const celebrityData = { 
         "aamir": { f: "AAMIR", l: "KHAN", d: "14 03 1965", m: "", a: "AAMIR KHAN PRODUCTIONS" },
@@ -317,7 +247,6 @@
         "sachin": { f: "SACHIN", l: "TENDULKAR", d: "24 04 1973", m: "", a: "SRT SPORTS MANAGEMENT" },
         "salman": { f: "SALMAN", l: "KHAN", d: "27 12 1965", m: "", a: "BEING HUMAN" },
         "srk": { f: "SHAH RUKH", l: "KHAN", d: "02 11 1965", m: "", a: "RED CHILLIES" },
-        "dhawan": { f: "SHIKHAR", l: "DHAWAN", d: "05 12 1985", m: "", a: "DA ONE" },
         "sundar": { f: "SUNDAR", l: "PICHAI", d: "10 06 1972", m: "", a: "GOOGLE ALPHABET" },
         "surya": { f: "SURYAKUMAR", l: "YADAV", d: "14 09 1990", m: "", a: "SKY ACADEMY" },
         "virat": { f: "VIRAT", l: "KOHLI", d: "05 11 1988", m: "", a: "ONE8 WROGN" },
@@ -338,44 +267,61 @@
         return sum;
     }
 
-    function getPairBadgeClass(desc) {
-        if (!desc || desc.includes("AVOID")) return "pair-badge badge-avoid";
-        if (desc.includes("BEST")) return "pair-badge badge-best";
-        if (desc.includes("VERY GOOD") || desc.includes("V GOOD")) return "pair-badge badge-vgood";
-        if (desc.includes("GOOD")) return "pair-badge badge-good";
-        if (desc.includes("AVR")) return "pair-badge badge-avr";
-        return "pair-badge badge-avoid";
+    function hasPair(str, pair) {
+        return str.indexOf(pair) !== -1;
+    }
+
+    function countChar(str, char) {
+        let count = 0;
+        for(let i=0; i<str.length; i++) { if(str.charAt(i) === char) count++; }
+        return count;
     }
 
     function calculateAll() {
         const fName = document.getElementById('firstName').value || "", lName = document.getElementById('lastName').value || "", bInput = document.getElementById('bhagyankInput').value || "", mobVal = document.getElementById('mobileInput').value || "", assetInput = document.getElementById('assetInput').value || "", houseInput = document.getElementById('houseInput').value || "", vehicleInput = document.getElementById('vehicleInput').value || "";
         
-        const fnCompound = getMixedSum(fName);
-        const lnCompound = getMixedSum(lName);
+        const fNameClean = fName.trim();
+        const lNameClean = lName.trim();
+
+        const fnCompound = getMixedSum(fNameClean);
+        const lnCompound = getMixedSum(lNameClean);
+        const nnCompound = getMixedSum(fNameClean + lNameClean);
         
         document.getElementById('firstName').value = fName.toUpperCase();
         document.getElementById('lastName').value = lName.toUpperCase();
 
-        document.getElementById('fnChars').innerText = getCharString(fName) + (fnCompound > 0 ? ` (Compound: ${fnCompound})` : "");
-        document.getElementById('lnChars').innerText = getCharString(lName) + (lnCompound > 0 ? ` (Compound: ${lnCompound})` : "");
+        document.getElementById('fnChars').innerText = getCharString(fNameClean) + (fnCompound > 0 ? ` (${fnCompound})` : "");
+        document.getElementById('lnChars').innerText = getCharString(lNameClean) + (lnCompound > 0 ? ` (${lnCompound})` : "");
         
-        const fn = getSingleDigit(fnCompound), ln = getSingleDigit(lnCompound), nn = getSingleDigit(getMixedSum(fName + lName));
+        const fn = getSingleDigit(fnCompound), ln = getSingleDigit(lnCompound), nn = getSingleDigit(nnCompound);
+        
         let bn = 0, dn = 0, age = 0; const bClean = bInput.replace(/\D/g, '');
+        let dobCompound = 0;
+        if(bClean.length >= 2) { 
+            bn = getSingleDigit(parseInt(bClean.substring(0,2))); 
+            document.getElementById('bulbArea').style.display = "block"; 
+            document.getElementById('careerList').innerText = professionMap[bn]; 
+        }
+        if(bClean.length === 8) { 
+            dobCompound = bClean.split('').reduce((a,b)=>a+parseInt(b),0);
+            dn = getSingleDigit(dobCompound); 
+            age = 2026 - parseInt(bClean.substring(4,8)); 
+            document.getElementById('ageVal').innerText = age; 
+            document.getElementById('fullAgeLine').style.display = "block"; 
+        }
         
-        if(bClean.length >= 2) { bn = getSingleDigit(parseInt(bClean.substring(0,2))); document.getElementById('bulbArea').style.display = "block"; document.getElementById('careerList').innerText = professionMap[bn]; }
-        if(bClean.length === 8) { dn = getSingleDigit(bClean.split('').reduce((a,b)=>a+parseInt(b),0)); age = 2026 - parseInt(bClean.substring(4,8)); document.getElementById('ageVal').innerText = age; document.getElementById('fullAgeLine').style.display = "block"; }
-        
-        // Alphanumeric calculations
+        document.getElementById('dobLabel').innerText = dobCompound > 0 ? `जन्म तारीख (${dobCompound}):` : "जन्म तारीख:";
+
         const assetCompound = getAlphanumericSum(assetInput);
-        document.getElementById('assetChars').innerText = getCharString(assetInput) + (assetCompound > 0 ? ` (Compound: ${assetCompound})` : "");
+        document.getElementById('assetChars').innerText = getCharString(assetInput) + (assetCompound > 0 ? ` (${assetCompound})` : "");
         document.getElementById('assetDigit').innerText = getSingleDigit(assetCompound);
 
         const houseCompound = getAlphanumericSum(houseInput);
-        document.getElementById('houseChars').innerText = getCharString(houseInput) + (houseCompound > 0 ? ` (Compound: ${houseCompound})` : "");
+        document.getElementById('houseChars').innerText = getCharString(houseInput) + (houseCompound > 0 ? ` (${houseCompound})` : "");
         document.getElementById('houseDigit').innerText = getSingleDigit(houseCompound);
 
         const vehicleCompound = getAlphanumericSum(vehicleInput);
-        document.getElementById('vehicleChars').innerText = getCharString(vehicleInput) + (vehicleCompound > 0 ? ` (Compound: ${vehicleCompound})` : "");
+        document.getElementById('vehicleChars').innerText = getCharString(vehicleInput) + (vehicleCompound > 0 ? ` (${vehicleCompound})` : "");
         document.getElementById('vehicleDigit').innerText = getSingleDigit(vehicleCompound);
 
         if(vehicleInput.trim() !== "") {
@@ -384,48 +330,95 @@
         } else { document.getElementById('vehicleRemedy').style.display = "none"; }
 
         const cleanMob = mobVal.replace(/\D/g, '');
-        const mobDigit = getSingleDigit(cleanMob.split('').reduce((a,b)=>a+(parseInt(b)||0),0));
+        let mobCompound = 0;
+        if(cleanMob.length > 0) {
+            mobCompound = cleanMob.split('').reduce((a,b)=>a+(parseInt(b)||0),0);
+        }
+        const mobDigit = getSingleDigit(mobCompound);
         document.getElementById('mobDigit').innerText = mobDigit;
+        document.getElementById('mobLabel').innerText = mobCompound > 0 ? `मोबाईल नंबर (${mobCompound}):` : "मोबाईल नंबर:";
 
-        document.getElementById('fnDigit').innerText = fn; document.getElementById('lnDigit').innerText = ln; document.getElementById('nnDigit').innerText = nn;
-        document.getElementById('bnDigit').innerText = bn; document.getElementById('dnDigit').innerText = dn;
+        document.getElementById('fnDigit').innerText = fn; 
+        document.getElementById('lnDigit').innerText = ln; 
+        document.getElementById('nnDigit').innerText = nn;
+        document.getElementById('nnLabel').innerText = nnCompound > 0 ? `NN` : "NN";
+        document.getElementById('bnDigit').innerText = bn; 
+        document.getElementById('dnDigit').innerText = dn;
 
         const setCol = (id, val) => document.getElementById(id).style.backgroundColor = {0:"#4a4a4a",1:"#FF8C00",2:"#BDBDBD",3:"#FFD700",4:"#4B4B4B",5:"#4CAF50",6:"#F06292",7:"#795548",8:"#212121",9:"#D32F2F"}[val];
         setCol('box-fn', fn); setCol('box-ln', ln); setCol('box-nn', nn); setCol('box-bn', bn); setCol('box-dn', dn); setCol('box-mob', mobDigit); setCol('box-asset', getSingleDigit(assetCompound)); setCol('box-house', getSingleDigit(houseCompound)); setCol('box-vehicle', getSingleDigit(vehicleCompound));
 
-        updateBanner('rel-fn', fn, "FN"); updateBanner('rel-nn', nn, "NN");
+        updateBanner('rel-fn', fn, `FN ${fn}`); 
+        updateBanner('rel-nn', nn, `NN ${nn} (${nnCompound})`);
 
         const reportDiv = document.getElementById('mobilePairReport');
         if(cleanMob.length === 10) {
             reportDiv.style.display = "block";
-            let pairs = [cleanMob.substring(0,2), cleanMob.substring(2,4), cleanMob.substring(4,6), cleanMob.substring(6,8), cleanMob.substring(8,10)];
-            let htmlHTML = "<b>📱 मोबाईल नंबर ५ जोड्या विश्लेषण:</b><br><ol style='padding-left:20px; margin:5px 0;'>";
-            
-            pairs.forEach((p, idx) => {
-                let ruleDesc = pairRules[p] || "माहिती उपलब्ध नाही किंवा खराब";
-                let badge = getPairBadgeClass(ruleDesc);
-                htmlHTML += `<li style='margin-bottom:4px;'>भाग ${idx+1} (<b>${p}</b>): <span class='${badge}'>${ruleDesc}</span></li>`;
-            });
-            htmlHTML += "</ol>";
+            let htmlHTML = "<b>📱 प्रगत मोबाईल न्यूमरोलॉजी रिपोर्ट:</b><br>";
 
-            let lastChar = cleanMob.charAt(9);
-            let pos5 = cleanMob.charAt(4);
-            let pos6 = cleanMob.charAt(5);
-            if(["4","8","7","9","0"].includes(lastChar)) {
-                htmlHTML += `<span class='warning-text'>⚠️ अलर्ट: नंबरच्या शेवटी ${lastChar} टाळावा! (Avoid 4,8,7,9,0 at end)</span>`;
+            let goalMatch = professionMap[mobDigit] || "माहिती उपलब्ध नाही";
+            htmlHTML += `<span class='success-text'>• Rule 1 (एकूण बेरीज ${mobDigit}):</span> हा नंबर या क्षेत्रासाठी चांगला आहे: ${goalMatch}<br>`;
+
+            // FIX: RULE 2 MADHE NO. PAN CHATURTHI LABEL MADHE DAKHAVLA AAHE
+            let evilAlerts = [];
+            if (hasPair(cleanMob, "12")) evilAlerts.push("Family disputes, hidden enemy and sensitivity (12)");
+            if (hasPair(cleanMob, "21")) evilAlerts.push("Family disputes, hidden enemy and sensitivity (21)");
+            if (hasPair(cleanMob, "18")) evilAlerts.push("Legal issues or ego clashes (18)");
+            if (hasPair(cleanMob, "81")) evilAlerts.push("Legal issues or ego clashes (81)");
+            if (hasPair(cleanMob, "48")) evilAlerts.push("Hard work with little financial gain (48)");
+            if (hasPair(cleanMob, "84")) evilAlerts.push("Hard work with little financial gain (84)");
+            if (hasPair(cleanMob, "36")) evilAlerts.push("Confusion and bad decisions (36)");
+            if (hasPair(cleanMob, "63")) evilAlerts.push("Confusion and bad decisions (63)");
+            
+            if(evilAlerts.length > 0) {
+                htmlHTML += `<span class='warning-text'>• Rule 2 (Evil Pairs Alert):<br>- ${evilAlerts.join("<br>- ")}</span>`;
+            } else {
+                htmlHTML += `<span class='success-text'>• Rule 2: नंबरमध्ये कोणतेही नकारात्मक इव्हिल पेअर्स आढळले नाहीत.</span>`;
             }
-            if(pos5 === "0" || pos6 === "0") {
-                htmlHTML += `<span class='warning-text'>⚠️ अलर्ट: ५ व्या किंवा ६ व्या स्थानावर '0' येऊ देऊ नये!</span>`;
+
+            let heavyAlerts = [];
+            if (countChar(cleanMob, "2") >= 3) heavyAlerts.push("जास्त २ अंक: Over-thinking आणि emotional instability.");
+            if (countChar(cleanMob, "4") >= 3) heavyAlerts.push("जास्त ४ अंक: Sudden shocks किंवा accidents.");
+            if (countChar(cleanMob, "7") >= 3) heavyAlerts.push("जास्त ७ अंक: Bad for making money.");
+            if (countChar(cleanMob, "8") >= 3) heavyAlerts.push("जास्त ८ अंक: Slow progress (संथ प्रगती).");
+            
+            if (heavyAlerts.length > 0) {
+                htmlHTML += `<span class='warning-text'>• Rule 3 (Heavy Numbers Alert):<br>${heavyAlerts.join("<br>")}</span>`;
+            } else {
+                htmlHTML += `<span class='success-text'>• Rule 3: जड अंक (2,4,7,8) मर्यादेत आहेत.</span>`;
             }
-            if(cleanMob.includes("2") || cleanMob.includes("4") || cleanMob.includes("8")) {
-                htmlHTML += `<span style='color:#ff9800; font-weight:bold; display:block; margin-top:4px;'>💡 टिप: नंबरमध्ये २, ४, ८ अंक काळजीपूर्वक वापरावेत.</span>`;
+
+            let last2 = cleanMob.substring(8, 10);
+            let sealMsg = "";
+            if (["56", "65", "15"].includes(last2)) sealMsg = "💰 Wealth Seal (पैसा आणि समृद्धी)";
+            else if (["11", "19", "91"].includes(last2)) sealMsg = "👑 Authority Seal (अधिकार आणि सत्ता)";
+            else if (["33", "24"].includes(last2)) sealMsg = "🕊️ Peace Seal (शांतता आणि सुख)";
+            
+            if (sealMsg !== "") {
+                htmlHTML += `<span class='success-text'>• Rule 4 (Ending Seal): ${sealMsg}</span>`;
+            } else {
+                htmlHTML += `<span style='color:#ff9800; font-weight:bold; display:block;'>• Rule 4: नंबरच्या शेवटी विशिष्ट राजमुद्रा (Seal) मॅच नाही.</span>`;
             }
+
+            let last3 = cleanMob.substring(7, 10);
+            if (last3.includes("4") || last3.includes("8")) {
+                htmlHTML += `<span class='warning-text'>• Rule 5 Alert: शेवटच्या ३ अंकात ४ किंवा ८ आला आहे, तो टाळावा.</span>`;
+            } else {
+                htmlHTML += `<span class='success-text'>• Rule 5: शेवटच्या ३ अंकात ४ किंवा ८ नाही, सुरक्षित आहे.</span>`;
+            }
+
+            if (cleanMob.charAt(9) === "0") {
+                htmlHTML += `<span class='warning-text'>• Rule 6 Alert: नंबरच्या शेवटी '0' आहे, तो पूर्णपणे टाळावा.</span>`;
+            } else {
+                htmlHTML += `<span class='success-text'>• Rule 6: नंबरच्या शेवटी 0 नाही, उत्तम आहे.</span>`;
+            }
+
             reportDiv.innerHTML = htmlHTML;
         } else { reportDiv.style.display = "none"; }
 
-        if(fName.length > 1 && bClean.length === 8) {
+        if(fNameClean.length > 1 && bClean.length === 8) {
             document.getElementById('brandSection').style.display = "block";
-            let msg = `Hello.. I Need Consultancy.%0A%0A*Name:* ${fName.toUpperCase()} ${lName.toUpperCase()}%0A*Birth Date:* ${bInput}%0A*Age:* ${age} Years%0A*BN:* ${bn} | *DN:* ${dn}%0A*FN:* ${fn} | *NN:* ${nn}%0A*Mobile:* ${mobVal} (Total: ${mobDigit})%0A`;
+            let msg = `Hello.. I Need Consultancy.%0A%0A*Name:* ${fNameClean.toUpperCase()} ${lNameClean.toUpperCase()}%0A*Birth Date:* ${bInput}%0A*Age:* ${age} Years%0A*BN:* ${bn} | *DN:* ${dn}%0A*FN:* ${fn} | *NN:* ${nn}%0A*Mobile:* ${mobVal} (Total: ${mobDigit})%0A`;
             if(assetInput.trim() !== "") msg += `*Asset Name:* ${assetInput.toUpperCase()} (Total: ${getSingleDigit(assetCompound)})%0A`;
             if(houseInput.trim() !== "") msg += `*House No:* ${houseInput.toUpperCase()} (Total: ${getSingleDigit(houseCompound)})%0A`;
             if(vehicleInput.trim() !== "") msg += `*Vehicle No:* ${vehicleInput.toUpperCase()} (Total: ${getSingleDigit(vehicleCompound)})%0A`;
@@ -435,9 +428,10 @@
 
     function updateBanner(id, digit, label) {
         const el = document.getElementById(id);
-        if(digit > 0) {
-            const r = relationshipChart[digit];
-            el.innerHTML = `<strong>${label} ${digit}:</strong> <span style="color:green;">मित्र: ${r.f.join(', ')}</span> | <span style="color:red;">शत्रू: ${r.e.join(', ')}</span> | <span style="color:blue;">सम: ${r.n.join(', ')}</span>`;
+        let checkDigit = parseInt(digit.toString().replace(/\D/g, ''));
+        if(checkDigit > 0) {
+            const r = relationshipChart[checkDigit];
+            el.innerHTML = `<strong>${label}:</strong> <span style="color:green;">मित्र: ${r.f.join(', ')}</span> | <span style="color:red;">शत्रू: ${r.e.join(', ')}</span> | <span style="color:blue;">सम: ${r.n.join(', ')}</span>`;
             el.style.display = "block";
         } else el.style.display = "none";
     }
@@ -449,6 +443,7 @@
         else { const d = planetMap[num]; document.getElementById('pTitle').innerText = `${num} - ${d.p}`; document.getElementById('pDesc').innerText = d.c; document.getElementById('pColor').innerText = `शुभ रंग: ${d.r}`; document.getElementById('pLetters').innerText = `अक्षरे: ${d.a}`; box.style.display = "block"; currentOpenPlanet = num; }
     }
 
+    // Modern style toggle
     function toggleCareer() {
         const sec = document.getElementById('careerSection');
         const bulb = document.getElementById('mainBulb');
